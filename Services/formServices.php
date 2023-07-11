@@ -14,6 +14,15 @@ $this->nacionalidades =new NacionalidadeRepository();
 $this->clientes=new UsersRepository();
 }
 
+public function getClienteDash($id){
+try {
+    $res = $this->clientes->getCliente($id);
+    return $res;
+} catch(Exception $e) {
+echo "Erro na pesquisa de clientes";
+}
+}
+
 public function makeLogin($email,$password){
 $loginResultado = $this->clientes->userLogin($email,$password);
 return $loginResultado;
@@ -31,6 +40,8 @@ public function insertInDB($nome,$email,$morada,$numTel,$username,$password,$emp
         throw $e;
     }
 
+
+
 }
 
 public function getProvincias(){
@@ -42,6 +53,8 @@ return $res;
 }
 
 }
+
+
 public function getNacionalidades(){
     try{
         $res = $this->nacionalidades->getAllNacionalidades();
@@ -71,4 +84,3 @@ public function getMunicipiosFromProvinciaServ($x){
 
 
 }
-?>

@@ -13,30 +13,43 @@
 
              <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Iniciar sessão</h3>
 
-             <div class="form-outline mb-4">
-               <input type="email" id="useremail" name="useremail" class="form-control form-control-lg" />
-               <label class="form-label" for="useremail">Endereço de email</label>
-             </div>
-
-             
-             <div class="form-outline mb-4">
-               <input type="password" id="userpassword" name="userpassword" class="form-control form-control-lg is-valid" />
-               <label class="form-label" for="userpassword">Palavra Passe</label>
-
-             </div>
-
-             <?php if (isset($_SESSION['errorflag'])) {
-                if ($_SESSION['errorflag']) {
+             <?php
+              if (isset($_SESSION['errorflag']) && $_SESSION['errorflag'] == true) {
+                // Se o error flag estiver definido, login form normal
 
               ?>
 
-                 <div id="validationServer03Feedback" class="invalid-feedback">
-                   Please provide a valid city.
+               <div class="form-outline mb-4">
+                 <input type="email" id="useremail" name="useremail" class="form-control form-control-lg is-invalid" />
+                 <label class="form-label" for="useremail">Endereço de email</label>
+               </div>
+
+
+               <div class="form-outline mb-4">
+                 <input type="password" id="userpassword" name="userpassword" class="form-control form-control-lg is-invalid" aria-describedby="invalidPWValidation" />
+                 <label class="form-label" for="userpassword">Palavra Passe</label>
+                 <div id="invalidPWValidation" class="invalid-feedback">
+                  Email ou Password incorrecta, tente novamente.
                  </div>
+               </div>
+
 
              <?php
-                }
-              } ?>
+             $_SESSION['errorflag']=false;
+
+              } else { ?>
+               <div class="form-outline mb-4">
+                 <input type="email" id="useremail" name="useremail" class="form-control form-control-lg" />
+                 <label class="form-label" for="useremail">Endereço de email</label>
+               </div>
+
+
+               <div class="form-outline mb-4">
+                 <input type="password" id="userpassword" name="userpassword" class="form-control form-control-lg" />
+                 <label class="form-label" for="userpassword">Palavra Passe</label>
+
+               </div>
+             <?php } ?>
 
              <div class="pt-1 mb-4">
                <button class="btn btn-info btn-lg btn-block" type="submit">Login</button>

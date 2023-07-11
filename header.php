@@ -72,7 +72,7 @@
                     </div>
 
                     <div class="d-flex mx-2 my-3">
-                        <a class="btn btn-outline-dark btn-lg" href="#" role="button"> <span><i class="glyphicon glyphicon-log-out"></i></span> Terminar Sessão </a>
+                        <a class="btn btn-outline-dark btn-lg" href="View/Logout.php" role="button"> <span><i class="glyphicon glyphicon-log-out"></i></span> Terminar Sessão </a>
                     </div>
 
                 <?php

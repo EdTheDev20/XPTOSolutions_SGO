@@ -39,9 +39,22 @@ class UsersRepository
         }
     }
 
+    public function getCliente($id){
+    $statement= $this->database->prepare("SELECT * from tuser where id=:id");
+    $statement->bindparam(":id", $id);
+    $statement->execute();
+    $result = $statement->fetchAll();
+    foreach ($result as $user){
+    $cliente= new Cliente($user['id'],$user['fk_tTipoCliente'],$user['nome'],$user['email'],$user['morada'],$user['numTel'],$user['username'],$user['password'],$user['fk_prov'],$user['fk_mun'],$user['fk_com'],"null",$user['fk_tTipoDeUsuario'],$user['empresaActividade'],$user['fk_tNacionalidade'],$user['fk_tEstadoConta']);
+    }
+    return $cliente;
+    }
+
+
     public function getAdminEmail()
     {
         $statement = $this->database->prepare("SELECT * from tuser where fk_tTipoDeUsuario=1");
+        
         $statement->execute();
         $result = $statement->fetchAll();
         foreach ($result as $admin) {
@@ -93,4 +106,6 @@ class UsersRepository
             return false;
         }
     }
+
 }
+

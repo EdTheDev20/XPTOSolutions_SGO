@@ -48,13 +48,27 @@ class pageController
             } else if ($op == 'sucessRegister') {
                 $this->displaySucessRegister();
             } else if ($op == 'dashboard') {
-                $this->showDashboard();
+                $this->displayDashboard();
             } else {
                 $this->displayError();
             }
         } catch (Exception $e) {
             echo $e->getMessage();
         }
+
+        include_once (APP_PATH . '/footer.php');
+    }
+
+    public function displayDashboard(){
+        if(isset($_SESSION['id'])){
+            $DashBoardCliente = $this->formService->getClienteDash($_SESSION['id']);
+            
+            
+            $this->showDashboard($DashBoardCliente);
+        } else {
+            $this->redirect("index.php?op=home");
+        }
+
     }
 
     public function fillRegisterForm()
@@ -120,7 +134,7 @@ class pageController
         include APP_PATH . '/View/Register.php';
     }
 
-    public function showDashboard()
+    public function showDashboard($User)
     {
         include APP_PATH . '/View/Dashboard.php';
     }
