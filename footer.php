@@ -3,57 +3,21 @@
   <div class="container pt-4">
     <section class="mb-4">
       <!-- Facebook -->
-      <a
-        class="btn btn-link btn-floating btn-lg text-dark m-1"
-        href="#!"
-        role="button"
-        data-mdb-ripple-color="dark"
-        ><i class="bi bi-facebook"></i
-      ></a>
+      <a class="btn btn-link btn-floating btn-lg text-dark m-1" href="#!" role="button" data-mdb-ripple-color="dark"><i class="bi bi-facebook"></i></a>
 
       <!-- Twitter -->
-      <a
-        class="btn btn-link btn-floating btn-lg text-dark m-1"
-        href="#!"
-        role="button"
-        data-mdb-ripple-color="dark"
-        ><i class="bi bi-twitter"></i
-      ></a>
+      <a class="btn btn-link btn-floating btn-lg text-dark m-1" href="#!" role="button" data-mdb-ripple-color="dark"><i class="bi bi-twitter"></i></a>
 
       <!-- Google -->
-      <a
-        class="btn btn-link btn-floating btn-lg text-dark m-1"
-        href="#!"
-        role="button"
-        data-mdb-ripple-color="dark"
-        ><i class="bi bi-google"></i
-      ></a>
+      <a class="btn btn-link btn-floating btn-lg text-dark m-1" href="#!" role="button" data-mdb-ripple-color="dark"><i class="bi bi-google"></i></a>
 
       <!-- Instagram -->
-      <a
-        class="btn btn-link btn-floating btn-lg text-dark m-1"
-        href="#!"
-        role="button"
-        data-mdb-ripple-color="dark"
-        ><i class="bi bi-instagram"></i
-      ></a>
+      <a class="btn btn-link btn-floating btn-lg text-dark m-1" href="#!" role="button" data-mdb-ripple-color="dark"><i class="bi bi-instagram"></i></a>
 
       <!-- Linkedin -->
-      <a
-        class="btn btn-link btn-floating btn-lg text-dark m-1"
-        href="#!"
-        role="button"
-        data-mdb-ripple-color="dark"
-        ><i class="bi bi-linkedin"></i
-      ></a>
+      <a class="btn btn-link btn-floating btn-lg text-dark m-1" href="#!" role="button" data-mdb-ripple-color="dark"><i class="bi bi-linkedin"></i></a>
       <!-- Github -->
-      <a
-        class="btn btn-link btn-floating btn-lg text-dark m-1"
-        href="#!"
-        role="button"
-        data-mdb-ripple-color="dark"
-        ><i class="bi bi-github"></i
-      ></a>
+      <a class="btn btn-link btn-floating btn-lg text-dark m-1" href="#!" role="button" data-mdb-ripple-color="dark"><i class="bi bi-github"></i></a>
     </section>
   </div>
 
@@ -64,8 +28,8 @@
   </div>
   <!-- Copyright -->
 </footer>
-</body>
 <script src="JS/jquery-3.7.0.js"></script>
 <script src="JS/popper.js"></script>
 <script src="JS/bootstrap.js"></script>
+</body>
 </html>

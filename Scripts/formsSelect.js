@@ -1,7 +1,8 @@
 function alterMunicipios() {
   var selectElement = document.getElementById("provinciaSelect");
   var selectedValue = selectElement.value;
-  /* $.ajax({
+  /*
+  $.ajax({
         url:'Scripts/getMunicipios.php',
         type:'GET',
         data:{
@@ -13,7 +14,7 @@ function alterMunicipios() {
             //do something
         }
     }) */
-  window.location.href = `index.php?op=register&provid=${selectedValue}`;
+  window.location.href = `index.php?op=register&provid=${selectedValue}`; 
 }
 
 function alterComunas() {

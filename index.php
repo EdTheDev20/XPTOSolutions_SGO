@@ -1,14 +1,13 @@
 <?php 
-include_once ('header.php');
-?>
+define('APP_PATH',dirname(__FILE__));
 
-<?php
- require_once ('Controller/formController.php');
-$controller = new formController();
+
+require_once (APP_PATH . '/Controller/pageController.php');
+
+session_start();
+
+$controller = new pageController();
 $controller->requestHandler(); 
+
 ?>
-
-
-<?php 
-include_once ('footer.php');
 

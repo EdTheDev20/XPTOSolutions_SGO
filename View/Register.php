@@ -4,7 +4,6 @@
 
         <form method="post">
 
-
             <div class="mb-3">
                 <label class="form-label" for="username">Nome De Usuário/Username</label>
                 <input type="text" name="username" id="username" class="form-control" required>
@@ -25,7 +24,6 @@
                 <label for="inputPassword" class="form-label">Password</label>
                 <input type="password" class="form-control" id="inputPassword" name="inputPassword" required>
             </div>
-
 
             <div class="mb-3">
                 <label for="checkPassword" class="form-label">Confirme a password</label>

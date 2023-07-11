@@ -1,5 +1,5 @@
 <?php
-require_once 'Model/Pessoa.php';
+require_once APP_PATH . '/Model/Pessoa.php';
  /* Este tipo de utilizadores para poderem solicitar o aluguer de um outoodr têm de preencher
 um formulário de adesão com os seguintes dados:
 o Tipo de Cliente (Empresa ou Particular)

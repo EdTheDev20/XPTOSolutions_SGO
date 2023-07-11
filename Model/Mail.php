@@ -1,11 +1,11 @@
 <?php 
-require "./vendor/autoload.php";
+require APP_PATH . "/vendor/autoload.php";
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-require './vendor/phpmailer/phpmailer/src/Exception.php';
-require './vendor/phpmailer/phpmailer/src/PHPMailer.php';
-require './vendor/phpmailer/phpmailer/src/SMTP.php';
+require APP_PATH . '/vendor/phpmailer/phpmailer/src/Exception.php';
+require APP_PATH . '/vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require APP_PATH . '/vendor/phpmailer/phpmailer/src/SMTP.php';
 class Mail{
 protected $mail;
 public function __construct($nome,$email,$subject,$message)

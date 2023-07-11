@@ -1,7 +1,8 @@
 <?php 
-require_once ('./Repositories/LocalizacaoRepository.php');
-require_once ('./Repositories/NacionalidadeRepository.php');
-require_once('./Repositories/ClienteRepository.php');
+
+require_once (APP_PATH . '/Repositories/LocalizacaoRepository.php');
+require_once (APP_PATH . '/Repositories/NacionalidadeRepository.php');
+require_once(APP_PATH . '/Repositories/UsersRepository.php');
 class formServices {
 private $localizacaoRepository = NULL;
 private $nacionalidades = NULL;
@@ -10,7 +11,12 @@ public function __construct()
 {
 $this->localizacaoRepository = new LocalizacaoRepository();
 $this->nacionalidades =new NacionalidadeRepository();
-$this->clientes=new ClienteRepository();
+$this->clientes=new UsersRepository();
+}
+
+public function makeLogin($email,$password){
+$loginResultado = $this->clientes->userLogin($email,$password);
+return $loginResultado;
 }
 
 public function getAdmMail(){
