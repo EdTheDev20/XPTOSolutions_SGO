@@ -44,6 +44,17 @@ public function insertInDB($nome,$email,$morada,$numTel,$username,$password,$emp
 
 }
 
+public function getUsersForAdm(){
+try {
+    $res = $this->clientes->getUserforDashBoard();
+return $res;
+} catch(Exception $e){
+    echo "erro a recolher users";
+}
+
+
+}
+
 public function getProvincias(){
 try {
 $res = $this->localizacaoRepository->selectAllProvincias();

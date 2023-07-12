@@ -19,7 +19,7 @@ class pageController
 
     public function requestHandler()
     {
-        include_once (APP_PATH . '/header.php');
+        include_once(APP_PATH . '/header.php');
 
         $filterOp = filter_input(INPUT_GET, 'op');
         $op = isset($filterOp) ? $filterOp : NULL;
@@ -30,19 +30,17 @@ class pageController
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $result = $this->formService->makeLogin($_POST['useremail'], $_POST["userpassword"]);
                     if ($result !== "Redirecionar") {
-                       $_SESSION['errorflag']=true;
+                        $_SESSION['errorflag'] = true;
                     } else {
-                        $_SESSION['errorflag']=false;
+                        $_SESSION['errorflag'] = false;
                         $this->redirect("index.php?op=home");
                     }
                 }
-                if(!isset($_SESSION['nome'])){ //Set a sessão do user estiver não estiver ativada, apresentamos o login, caso contrário encaminhamos o mesmo para o index.
-                 $this->generalLogin(); 
+                if (!isset($_SESSION['nome'])) { //Set a sessão do user estiver não estiver ativada, apresentamos o login, caso contrário encaminhamos o mesmo para o index.
+                    $this->generalLogin();
                 } else {
                     $this->redirect("index.php?op=home");
                 }
-              
-
             } else if ($op == 'register') {
                 $this->fillRegisterForm();
             } else if ($op == 'sucessRegister') {
@@ -56,19 +54,24 @@ class pageController
             echo $e->getMessage();
         }
 
-        include_once (APP_PATH . '/footer.php');
+        include_once(APP_PATH . '/footer.php');
     }
 
-    public function displayDashboard(){
-        if(isset($_SESSION['id'])){
-            $DashBoardCliente = $this->formService->getClienteDash($_SESSION['id']);
-            
-            
-            $this->showDashboard($DashBoardCliente);
+    public function displayDashboard()
+    {
+        if (isset($_SESSION['id'])) {
+            if ($_SESSION["fk_tTipoDeUsuario"] == "1") {
+                $usersforAdm = $this->formService->getUsersForAdm();
+                $this->displayUserManagement($usersforAdm);
+                
+            }
+            if ($_SESSION["fk_tTipoDeUsuario"] == "3") {
+                $DashBoardCliente = $this->formService->getClienteDash($_SESSION['id']);
+                $this->showDashboardUser($DashBoardCliente);
+            }
         } else {
             $this->redirect("index.php?op=home");
         }
-
     }
 
     public function fillRegisterForm()
@@ -134,7 +137,7 @@ class pageController
         include APP_PATH . '/View/Register.php';
     }
 
-    public function showDashboard($User)
+    public function showDashboardUser($User)
     {
         include APP_PATH . '/View/Dashboard.php';
     }
@@ -152,5 +155,9 @@ class pageController
     public function displaySucessRegister()
     {
         include APP_PATH . '/View/LoginSuccess.php';
+    }
+
+    public function displayUserManagement($usersforAdm){
+        include APP_PATH . '/View/UserManagement.php';
     }
 }

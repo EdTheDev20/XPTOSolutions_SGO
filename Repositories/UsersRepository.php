@@ -13,6 +13,26 @@ class UsersRepository
         $this->database = Database::getInstance();
     }
 
+    public function getUserforDashBoard(){
+    $statement = $this->database->prepare("SELECT tuser.id, tuser.nome, tuser.email, tuser.morada, tuser.numTel, tuser.username, tuser.password, tuser.empresaActividade, tuser.fk_tEstadoConta, tuser.fk_tTipoCliente, tuser.fk_tTipoDeUsuario,
+    tprovincia.nome AS prov_name, tmunicipio.nome AS mun_name, tcomuna.nome AS com_name, tnacionalidade.nome AS nacionalidade_name, testadocliente.nome AS estado_conta_nome
+FROM tuser
+LEFT JOIN tprovincia ON tuser.fk_prov = tprovincia.idtprovincia
+LEFT JOIN tmunicipio ON tuser.fk_mun = tmunicipio.idtmunicipio
+LEFT JOIN tcomuna ON tuser.fk_com = tcomuna.idtcomuna
+LEFT JOIN tnacionalidade ON tuser.fk_tNacionalidade = tnacionalidade.idtnacionalidade
+LEFT JOIN testadocliente ON tuser.fk_tEstadoConta = testadocliente.id;
+");
+$statement->execute();
+$result = $statement->fetchAll();
+foreach($result as $user){
+    $users[]= new Cliente($user['id'], $user['fk_tTipoDeUsuario'], $user['nome'], $user['email'], $user['morada'], $user['numTel'], $user['username'], $user['password'], $user['prov_name'], $user['mun_name'], $user['com_name'], "null", $user['fk_tTipoCliente'], $user['empresaActividade'], $user['nacionalidade_name'], $user['estado_conta_nome']);
+}
+return $users;
+
+
+    }
+
     public function userLogin($email, $password)
     {
         $statement = $this->database->prepare("SELECT * from tuser WHERE email= :email and password= :password ");
@@ -24,28 +44,18 @@ class UsersRepository
         if ($count == 1) {
             $result = $statement->fetchAll();
             foreach ($result as $user) {
-                $_SESSION["EstadoConta"] = $user['fk_tEstadoConta'];
-                if ($_SESSION["EstadoConta"] == "1") {
-
-                    $_SESSION["id"] = $user['id'];
-                    $_SESSION["nome"] = $user['nome'];
-                    $_SESSION["email"] = $user['email'];
-                    $_SESSION["password"] = $user['password'];
-                    $_SESSION["fk_tTipoDeUsuario"] = $user['fk_tTipoDeUsuario'];
-
-                    $redirect = "Redirecionar";
-                    return $redirect;
-                }
+                $_SESSION["id"] = $user['id'];
+                $_SESSION["nome"] = $user['nome'];
+                $_SESSION["email"] = $user['email'];
+                $_SESSION["password"] = $user['password'];
+                $_SESSION["fk_tTipoDeUsuario"] = $user['fk_tTipoDeUsuario'];
+                $_SESSION["fk_tEstadoConta"] = $user['fk_tEstadoConta'];
             }
+            $redirect = "Redirecionar";
+            return $redirect;
         } else {
-            if((isset($_SESSION["EstadoConta"]) and $_SESSION["EstadoConta"]!=1)){
-            $error = "Contacte o administrador, a conta requer revisão.";
+            $error = "Email ou Palavra Passe incorrecta";
             return $error;
-        }
-        else {
-            $error = "Password ou email incorrectos.";
-            return $error;
-        }
         }
     }
 
