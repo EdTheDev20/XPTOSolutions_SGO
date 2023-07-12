@@ -3,63 +3,7 @@
     <div class="col-lg-6">
 
         <form method="post">
-
-            <div class="mb-3">
-                <label class="form-label" for="username">Nome De Usuário/Username</label>
-                <input type="text" name="username" id="username" class="form-control" required>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label" for="nomeCompleto">Nome Completo</label>
-                <input type="text" name="nomeCompleto" id="nomeCompleto" class="form-control" required>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label" for="email">Endereço email</label>
-                <input type="text" name="email" id="email" class="form-control" required>
-                <div class="form-text" required id="emailHelp">Nunca iremos partilhar o seu email</div>
-            </div>
-
-            <div class="mb-3">
-                <label for="inputPassword" class="form-label">Password</label>
-                <input type="password" class="form-control" id="inputPassword" name="inputPassword" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="checkPassword" class="form-label">Confirme a password</label>
-                <input type="password" class="form-control" id="checkPassword" onkeyup='check();' name="checkPassword" required>
-                <span id="message"></span>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label" for="numeroTelefone">Número de telefone</label>
-                <input type="number" pattern=".{5,10}" required onkeyup='check();' name="numeroTel" id="numeroTel" class="form-control" required>
-            </div>
-
-
-            <div class="mb-3">
-                <label for="tipodeCliente" class="form-label">Tipo de cliente
-                </label>
-
-                <select name="tipodeCliente" id="tipodeCliente" class="form-select" onchange="typeOfClient()" required>
-                <option value="" selected disabled>Selecione um tipo de cliente</option>
-                    <option value="1">Particular</option>
-                    <option value="2">Empresa</option>
-                </select>
-            </div>
-
-            <div class="mb-3" id="empresaActivities">
-                 <!-- <label for="actividadeDaEmpresa" class="form-label">Actividade Da Empresa</label>
-                <textarea class="form-control" id="actividadeDaEmpresa" name="actividadeDaEmpresa" rows="3" required></textarea>  -->
-            </div>
-            
-             <div class="mb-3">
-                <label class="form-label" for="morada">Morada</label>
-                <input type="text" name="morada" id="morada" class="form-control" required>
-            </div>
-
-
-            <div class="mb-3">
+<div class="mb-3">
                 <label for="provinciaSelect" class="form-label">Província</label>
 
                 <select name="provinciaSelect" id="provinciaSelect" class="form-select" onchange="alterMunicipios()" required>
@@ -117,6 +61,62 @@
 
                 </select>
             </div>
+            <div class="mb-3">
+                <label class="form-label" for="username">Nome De Usuário/Username</label>
+                <input type="text" name="username" id="username" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="nomeCompleto">Nome Completo</label>
+                <input type="text" name="nomeCompleto" id="nomeCompleto" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="email">Endereço email</label>
+                <input type="text" name="email" id="email" class="form-control" required>
+                <div class="form-text" required id="emailHelp">Nunca iremos partilhar o seu email</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="inputPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="inputPassword" name="inputPassword" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="checkPassword" class="form-label">Confirme a password</label>
+                <input type="password" class="form-control" id="checkPassword" onkeyup='check();' name="checkPassword" required>
+                <span id="message"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="numeroTelefone">Número de telefone</label>
+                <input type="number" pattern=".{5,10}" required onkeyup='check();' name="numeroTel" id="numeroTel" class="form-control" required>
+            </div>
+
+
+            <div class="mb-3">
+                <label for="tipodeCliente" class="form-label">Tipo de cliente
+                </label>
+
+                <select name="tipodeCliente" id="tipodeCliente" class="form-select" onchange="typeOfClient()" required>
+                <option value="" selected disabled>Selecione um tipo de cliente</option>
+                    <option value="1">Particular</option>
+                    <option value="2">Empresa</option>
+                </select>
+            </div>
+
+            <div class="mb-3" id="empresaActivities">
+                 <!-- <label for="actividadeDaEmpresa" class="form-label">Actividade Da Empresa</label>
+                <textarea class="form-control" id="actividadeDaEmpresa" name="actividadeDaEmpresa" rows="3" required></textarea>  -->
+            </div>
+            
+             <div class="mb-3">
+                <label class="form-label" for="morada">Morada</label>
+                <input type="text" name="morada" id="morada" class="form-control" required>
+            </div>
+
+
+            
 
             <div class="mb-3">
                 <label for="nacionalidadeSelect" class="form-label">Nacionalidade</label>

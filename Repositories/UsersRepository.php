@@ -21,40 +21,59 @@ class UsersRepository
         $statement->execute();
         $count = $statement->rowCount();
 
-        if($count==1){ 
-        $result = $statement->fetchAll();
-        foreach($result as $user){
-        $_SESSION["id"] = $user['id'];
-        $_SESSION["nome"]=$user['nome'];
-        $_SESSION["email"] = $user['email'];
-        $_SESSION["password"] = $user['password'];
-        $_SESSION["fk_tTipoDeUsuario"] = $user['fk_tTipoDeUsuario'];
-        $_SESSION["fk_tEstadoConta"] = $user['fk_tEstadoConta'];   }
-        $redirect = "Redirecionar";
-        return $redirect;
-    }
-        else {
-            $error = "Email ou Palavra Passe incorrecta";
+        if ($count == 1) {
+            $result = $statement->fetchAll();
+            foreach ($result as $user) {
+                $_SESSION["EstadoConta"] = $user['fk_tEstadoConta'];
+                if ($_SESSION["EstadoConta"] == "1") {
+
+                    $_SESSION["id"] = $user['id'];
+                    $_SESSION["nome"] = $user['nome'];
+                    $_SESSION["email"] = $user['email'];
+                    $_SESSION["password"] = $user['password'];
+                    $_SESSION["fk_tTipoDeUsuario"] = $user['fk_tTipoDeUsuario'];
+
+                    $redirect = "Redirecionar";
+                    return $redirect;
+                }
+            }
+        } else {
+            if((isset($_SESSION["EstadoConta"]) and $_SESSION["EstadoConta"]!=1)){
+            $error = "Contacte o administrador, a conta requer revisão.";
             return $error;
+        }
+        else {
+            $error = "Password ou email incorrectos.";
+            return $error;
+        }
         }
     }
 
-    public function getCliente($id){
-    $statement= $this->database->prepare("SELECT * from tuser where id=:id");
-    $statement->bindparam(":id", $id);
-    $statement->execute();
-    $result = $statement->fetchAll();
-    foreach ($result as $user){
-    $cliente= new Cliente($user['id'],$user['fk_tTipoCliente'],$user['nome'],$user['email'],$user['morada'],$user['numTel'],$user['username'],$user['password'],$user['fk_prov'],$user['fk_mun'],$user['fk_com'],"null",$user['fk_tTipoDeUsuario'],$user['empresaActividade'],$user['fk_tNacionalidade'],$user['fk_tEstadoConta']);
-    }
-    return $cliente;
+    public function getCliente($id)
+    {
+        $statement = $this->database->prepare("SELECT tuser.id, tuser.nome, tuser.email, tuser.morada, tuser.numTel, tuser.username, tuser.password, tuser.empresaActividade, tuser.fk_tEstadoConta, tuser.fk_tTipoCliente, tuser.fk_tTipoDeUsuario,
+       tprovincia.nome AS prov_name, tmunicipio.nome AS mun_name, tcomuna.nome AS com_name, tnacionalidade.nome AS nacionalidade_name
+FROM tuser
+LEFT JOIN tprovincia ON tuser.fk_prov = tprovincia.idtprovincia
+LEFT JOIN tmunicipio ON tuser.fk_mun = tmunicipio.idtmunicipio
+LEFT JOIN tcomuna ON tuser.fk_com = tcomuna.idtcomuna
+LEFT JOIN tnacionalidade ON tuser.fk_tNacionalidade = tnacionalidade.idtnacionalidade
+WHERE tuser.id = :id;
+");
+        $statement->bindparam(":id", $id);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        foreach ($result as $user) {
+            $cliente = new Cliente($user['id'], $user['fk_tTipoDeUsuario'], $user['nome'], $user['email'], $user['morada'], $user['numTel'], $user['username'], $user['password'], $user['prov_name'], $user['mun_name'], $user['com_name'], "null", $user['fk_tTipoCliente'], $user['empresaActividade'], $user['nacionalidade_name'], $user['fk_tEstadoConta']);
+        }
+        return $cliente;
     }
 
 
     public function getAdminEmail()
     {
         $statement = $this->database->prepare("SELECT * from tuser where fk_tTipoDeUsuario=1");
-        
+
         $statement->execute();
         $result = $statement->fetchAll();
         foreach ($result as $admin) {
@@ -106,6 +125,4 @@ class UsersRepository
             return false;
         }
     }
-
 }
-

@@ -35,7 +35,11 @@ o Actividade da Empresa
                         <div class="col-sm-9">
                             <p class="text-muted mb-0">
                             <?php 
-                            echo $User->getTipoDeCliente();
+                            $tipoDeCliente = $User->getTipoDeCliente();
+                          if($tipoDeCliente==1){
+                            echo "Particular";
+                          }
+                          else echo "Empresa";
                             
                             ?>    
 
@@ -44,17 +48,27 @@ o Actividade da Empresa
                     </div>
 
                     <hr>
+<?php
+if($User->getActividadeDaEmpresa()!="null"){
+?>
 
                     <div class="row">
                         <div class="col-sm-3">
                             <p class="mb-0">Actividade da Empresa</p>
                         </div>
                         <div class="col-sm-9">
-                            <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                            <p class="text-muted mb-0">
+                                <?php
+                               echo $User->getActividadeDaEmpresa();
+                                ?>
+                            </p>
                         </div>
                     </div>
 
                     <hr>
+<?php 
+} ?>
+
 
 
                     <div class="row">
@@ -62,7 +76,7 @@ o Actividade da Empresa
                             <p class="mb-0">Username</p>
                         </div>
                         <div class="col-sm-9">
-                            <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                            <p class="text-muted mb-0"> <?php echo $User->getUsername(); ?></p>
                         </div>
                     </div>
 
@@ -74,7 +88,7 @@ o Actividade da Empresa
                             <p class="mb-0">Email</p>
                         </div>
                         <div class="col-sm-9">
-                            <p class="text-muted mb-0">example@example.com</p>
+                            <p class="text-muted mb-0"> <?php echo $User->getEMail(); ?></p>
                         </div>
                     </div>
 
@@ -84,7 +98,10 @@ o Actividade da Empresa
                             <p class="mb-0">Número de telefone</p>
                         </div>
                         <div class="col-sm-9">
-                            <p class="text-muted mb-0">(097) 234-5678</p>
+                            <p class="text-muted mb-0">
+                            <?php echo $User->getCellphoneNumber(); ?>    
+
+                            </p>
                         </div>
                     </div>
 
@@ -95,21 +112,21 @@ o Actividade da Empresa
                             <p class="mb-0">Província</p>
                         </div>
                         <div class="col-sm-9">
-                            <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                            <p class="text-muted mb-0"> <?php echo $User->getProvincia(); ?></p>
                         </div>
 
                         <div class="col-sm-3">
                             <p class="mb-0">Município</p>
                         </div>
                         <div class="col-sm-9">
-                            <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                            <p class="text-muted mb-0"> <?php echo $User->getMunicipio(); ?></p>
                         </div>
 
                         <div class="col-sm-3">
                             <p class="mb-0">Comuna</p>
                         </div>
                         <div class="col-sm-9">
-                            <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                            <p class="text-muted mb-0"> <?php echo $User->getComuna(); ?></p>
                         </div>
                     </div>
 
@@ -120,7 +137,7 @@ o Actividade da Empresa
                             <p class="mb-0">Morada</p>
                         </div>
                         <div class="col-sm-9">
-                            <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                            <p class="text-muted mb-0"> <?php echo $User->getAddress(); ?></p>
                         </div>
 
                         <hr>
@@ -129,7 +146,7 @@ o Actividade da Empresa
                                 <p class="mb-0">Nacionalidade</p>
                             </div>
                             <div class="col-sm-9">
-                                <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                                <p class="text-muted mb-0"> <?php echo $User->getNacionalidade(); ?></p>
                             </div>
                         </div>
 
