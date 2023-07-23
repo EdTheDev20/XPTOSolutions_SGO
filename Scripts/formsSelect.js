@@ -17,6 +17,24 @@ function alterMunicipios() {
   window.location.href = `index.php?op=register&provid=${selectedValue}`; 
 }
 
+function editAlterMunicipios() {
+  var selectElement = document.getElementById("provinciaSelect");
+  var selectedValue = selectElement.value;
+  /*
+  $.ajax({
+        url:'Scripts/getMunicipios.php',
+        type:'GET',
+        data:{
+            provincia: selectedValue
+        },
+        success: function(response){
+          alert(response);
+        },error:function(xhr){
+            //do something
+        }
+    }) */
+  window.location.href = `index.php?op=dashboard&provid=${selectedValue}`; 
+}
 function alterComunas() {
   var provinciaSelect = document.getElementById("provinciaSelect");
   var provinciaId = provinciaSelect.value;
@@ -24,6 +42,14 @@ function alterComunas() {
   var municipioSelect = document.getElementById("municipioSelect");
   var municipioId = municipioSelect.value;
   window.location.href = `index.php?op=register&provid=${provinciaId}&munid=${municipioId}`;
+}
+function editalterComunas() {
+  var provinciaSelect = document.getElementById("provinciaSelect");
+  var provinciaId = provinciaSelect.value;
+
+  var municipioSelect = document.getElementById("municipioSelect");
+  var municipioId = municipioSelect.value;
+  window.location.href = `index.php?op=dashboard&provid=${provinciaId}&munid=${municipioId}`;
 }
 
 function check() {

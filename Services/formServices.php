@@ -32,6 +32,30 @@ public function getAdmMail(){
     return $this->clientes->getAdminEmail();
 }
 
+public function aprovarUser($id){
+    try{
+        $res = $this->clientes->approveUser($id);
+    }catch(PDOException $e){
+        throw $e;
+    }
+}
+public function recusarUser($id){
+    try{
+        $res = $this->clientes->refuseUser($id);
+    }catch(PDOException $e){
+        throw $e;
+    }
+}
+
+public function alterClientData($clienteId, $clienteName, $clienteEmail, $clienteMorada, $clientenumTel, $clienteUsername, $clientePassword, $clienteEmpresaActividade, $clienteProv, $clienteMun, $clienteCom, $clienteTipo, $clienteNacionalidade) {
+    try {
+        $res = $this->clientes->updateClientData($clienteId, $clienteName, $clienteEmail, $clienteMorada, $clientenumTel, $clienteUsername, $clientePassword, $clienteEmpresaActividade, $clienteProv, $clienteMun, $clienteCom, $clienteTipo, $clienteNacionalidade);
+    } catch (Exception $e) {
+        throw $e;
+    }
+}
+
+
 public function insertInDB($nome,$email,$morada,$numTel,$username,$password,$empresaActividade,$fk_prov,$fk_mun,$fk_com,$fk_tTipoCliente,$fk_tNacionalidade,$fk_tTipoDeUsuario,$fk_tEstadoConta){
     try{
           $result = $this->clientes->createNewCliente($nome,$email,$morada,$numTel,$username,$password,$empresaActividade,$fk_prov,$fk_mun,$fk_com,$fk_tTipoCliente,$fk_tNacionalidade,$fk_tTipoDeUsuario,$fk_tEstadoConta);

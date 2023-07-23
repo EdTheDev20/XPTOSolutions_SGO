@@ -33,7 +33,12 @@ class pageController
                         $_SESSION['errorflag'] = true;
                     } else {
                         $_SESSION['errorflag'] = false;
-                        $this->redirect("index.php?op=home");
+                        if ($_SESSION["fk_tEstadoConta"] != "1") {
+                            session_destroy();
+                            $this->redirect("index.php?op=loginerror");
+                        } else {
+                            $this->redirect("index.php?op=home");
+                        }
                     }
                 }
                 if (!isset($_SESSION['nome'])) { //Set a sessão do user estiver não estiver ativada, apresentamos o login, caso contrário encaminhamos o mesmo para o index.
@@ -45,8 +50,13 @@ class pageController
                 $this->fillRegisterForm();
             } else if ($op == 'sucessRegister') {
                 $this->displaySucessRegister();
+            } else if ($op == 'datachangesucess') {
+                $this->displayDataChangeSuccess();
             } else if ($op == 'dashboard') {
                 $this->displayDashboard();
+            } else if ($op == 'loginerror') {
+                session_destroy();
+                $this->displayLoginError();
             } else {
                 $this->displayError();
             }
@@ -63,15 +73,88 @@ class pageController
             if ($_SESSION["fk_tTipoDeUsuario"] == "1") {
                 $usersforAdm = $this->formService->getUsersForAdm();
                 $this->displayUserManagement($usersforAdm);
-                
+                $this->displayManagersManagement();
+                $task =  isset($_POST['task']) ? filter_input(INPUT_POST, 'task') : FALSE;
+                if($task=='delete'){
+                  try {       
+                $this->formService->recusarUser($_POST['id']);
+                    session_destroy();
+                   
+
+                  } catch(ValidationException $e){
+                    throw $e;
+                  }
+                }
+                else if($task=='accept'){
+                    try {       
+                        $this->formService->aprovarUser($_POST['id']);
+                            session_destroy();
+                          } catch(ValidationException $e){
+                            throw $e;
+                          }
+                    session_destroy();
+                }
             }
             if ($_SESSION["fk_tTipoDeUsuario"] == "3") {
                 $DashBoardCliente = $this->formService->getClienteDash($_SESSION['id']);
-                $this->showDashboardUser($DashBoardCliente);
+                $provincias = $this->formService->getProvincias();
+                $nacionalidades = $this->formService->getNacionalidades();
+
+                $filterProvId = filter_input(INPUT_GET, 'provid');
+                $filterMunId = filter_input(INPUT_GET, 'munid');
+                $provId = isset($filterProvId) ? $filterProvId : NULL;
+                $munId = isset($filterMunId) ? $filterMunId : NULL;
+                $_SESSION['provId'] = '';
+
+                if ($provId) {
+                    $municipios = $this->formService->getMunicipiosFromProvinciaServ($provId);
+                    $_SESSION['provId'] = $provId;
+                }
+                $_SESSION['munid'] = '';
+                if ($munId) {
+                    $comunas = $this->formService->getComunasFromMunicipiosServ($munId);
+                    $_SESSION['munid'] = $munId;
+                }
+
+                if (isset($_POST['editForm'])) {
+
+                    $username = $_POST['username'];
+                    $nome = $_POST['nomeCompleto'];
+                    $email = $_POST['email'];
+                    $password = $_POST['inputPassword'];
+                    $numerotelefone = $_POST['numeroTel'];
+                    $tipoDeCliente = $_POST['tipodeCliente'];
+                    $actividadeDaEmpresa = isset($_POST['actividadeDaEmpresa']) ? filter_input(INPUT_POST, 'actividadeDaEmpresa') : "null";
+                    $provincia = $_POST['provinciaSelect'];
+                    $municipio = $_POST['municipioSelect'];
+                    $comuna = $_POST['comunaSelect'];
+                    $morada = $_POST['morada'];
+                    $nacionalidade = $_POST['nacionalidadeSelect'];
+                    try {
+                        $this->formService->alterClientData($_SESSION['id'], $nome, $email, $morada, $numerotelefone, $username, $password, $actividadeDaEmpresa, $provincia, $municipio, $comuna, $tipoDeCliente, $nacionalidade);
+                        session_destroy();
+                        $this->redirect("index.php?op=datachangesucess");
+                    } catch (ValidationException $e) {
+                        $errors = $e->getErrors();
+                    }
+                }
+                if (!isset($municipios)) {
+                    $comunas = NULL;
+                }
+                if (!isset($comunas)) {
+                    $comunas = NULL;
+                }
+
+                $this->showDashboardUser($DashBoardCliente, $provincias, $municipios, $comunas, $nacionalidades);
             }
         } else {
             $this->redirect("index.php?op=home");
         }
+    }
+
+    public function displayManagersManagement(){
+     include APP_PATH . '/View/ManagersManagement.php';
+        
     }
 
     public function fillRegisterForm()
@@ -137,8 +220,9 @@ class pageController
         include APP_PATH . '/View/Register.php';
     }
 
-    public function showDashboardUser($User)
+    public function showDashboardUser($User, $provincias, $municipios, $comunas, $nacionalidades)
     {
+
         include APP_PATH . '/View/Dashboard.php';
     }
 
@@ -157,7 +241,17 @@ class pageController
         include APP_PATH . '/View/LoginSuccess.php';
     }
 
-    public function displayUserManagement($usersforAdm){
+    public function displayUserManagement($usersforAdm)
+    {
         include APP_PATH . '/View/UserManagement.php';
+    }
+    public function displayLoginError()
+    {
+        include APP_PATH . '/View/AwaitAproval.php';
+    }
+
+    public function displayDataChangeSuccess()
+    {
+        include APP_PATH . '/View/DataChangeSuccess.php';
     }
 }

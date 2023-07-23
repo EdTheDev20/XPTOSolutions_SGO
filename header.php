@@ -7,13 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XPTO Solutions</title>
     <link rel="stylesheet" type="text/css" href="CSS/bootstrap.css">
+       <script src="Scripts/formsSelect.js"></script>
+    <script type="text/javascript" src="JS/jquery-3.7.0.js"></script>
+    <script type="text/javascript" src="node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+    <script type="text/javascript" src="JS/bootstrap.js"></script>
     <link rel="shortcut icon" href="../../Assets/Favicon/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="CSS/loginCss.css" />
     <link rel="stylesheet" href="Content/bootstrap-icons-1.10.5/font/bootstrap-icons.css" />
     <link href="https://fonts.googleapis.com/css?family=Cabin:400,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:900" rel="stylesheet">
     <link rel="stylesheet" href="CSS/Error.css" />
-    <script src="Scripts/formsSelect.js"></script>
+ 
     <style>
         section {
             padding: 60px 0;
@@ -56,9 +60,9 @@
 
                 </ul>
 
- 
-              <?php
-                if (!isset($_SESSION['nome'])) { 
+
+                <?php
+                if (!isset($_SESSION['nome'])) {
                     //Se não estiver set, apresente o botão de login.
                 ?>
                     <div class="d-flex my-3">
@@ -67,8 +71,8 @@
                 <?php
                 } else {  ?>
                     <div class="d-flex my-3">
-                        <a class="btn btn-outline-dark btn-lg" href="index.php?op=dashboard" role="button">   
-                          <span><i class="bi bi-person-circle"></i></span> <?php echo $_SESSION['nome']; ?> </a>
+                        <a class="btn btn-outline-dark btn-lg" href="index.php?op=dashboard" role="button">
+                            <span><i class="bi bi-person-circle"></i></span> <?php echo $_SESSION['nome']; ?> </a>
                     </div>
 
                     <div class="d-flex mx-2 my-3">
@@ -76,8 +80,8 @@
                     </div>
 
                 <?php
-                } ?> 
- 
+                } ?>
+
 
                 <!--  <form action="" class="d-flex my-3">
                         <input type="search" placeholder="pesquisar" class="form-control me-2">

@@ -13,24 +13,35 @@ class UsersRepository
         $this->database = Database::getInstance();
     }
 
-    public function getUserforDashBoard(){
-    $statement = $this->database->prepare("SELECT tuser.id, tuser.nome, tuser.email, tuser.morada, tuser.numTel, tuser.username, tuser.password, tuser.empresaActividade, tuser.fk_tEstadoConta, tuser.fk_tTipoCliente, tuser.fk_tTipoDeUsuario,
+    public function getGestores(){
+        $statement = $this->database->prepare("")
+    }
+    public function getUserforDashBoard()
+    {
+        $statement = $this->database->prepare("SELECT 
+    tuser.id, tuser.nome, tuser.email, tuser.morada, tuser.numTel, tuser.username, tuser.password, tuser.empresaActividade, tuser.fk_tEstadoConta, tuser.fk_tTipoCliente, tuser.fk_tTipoDeUsuario,
     tprovincia.nome AS prov_name, tmunicipio.nome AS mun_name, tcomuna.nome AS com_name, tnacionalidade.nome AS nacionalidade_name, testadocliente.nome AS estado_conta_nome
-FROM tuser
-LEFT JOIN tprovincia ON tuser.fk_prov = tprovincia.idtprovincia
-LEFT JOIN tmunicipio ON tuser.fk_mun = tmunicipio.idtmunicipio
-LEFT JOIN tcomuna ON tuser.fk_com = tcomuna.idtcomuna
-LEFT JOIN tnacionalidade ON tuser.fk_tNacionalidade = tnacionalidade.idtnacionalidade
-LEFT JOIN testadocliente ON tuser.fk_tEstadoConta = testadocliente.id;
+FROM 
+    tuser
+LEFT JOIN 
+    tprovincia ON tuser.fk_prov = tprovincia.idtprovincia
+LEFT JOIN 
+    tmunicipio ON tuser.fk_mun = tmunicipio.idtmunicipio
+LEFT JOIN 
+    tcomuna ON tuser.fk_com = tcomuna.idtcomuna
+LEFT JOIN 
+    tnacionalidade ON tuser.fk_tNacionalidade = tnacionalidade.idtnacionalidade
+LEFT JOIN 
+    testadocliente ON tuser.fk_tEstadoConta = testadocliente.id
+WHERE 
+    tuser.fk_tEstadoConta <> 1;
 ");
-$statement->execute();
-$result = $statement->fetchAll();
-foreach($result as $user){
-    $users[]= new Cliente($user['id'], $user['fk_tTipoDeUsuario'], $user['nome'], $user['email'], $user['morada'], $user['numTel'], $user['username'], $user['password'], $user['prov_name'], $user['mun_name'], $user['com_name'], "null", $user['fk_tTipoCliente'], $user['empresaActividade'], $user['nacionalidade_name'], $user['estado_conta_nome']);
-}
-return $users;
-
-
+        $statement->execute();
+        $result = $statement->fetchAll();
+        foreach ($result as $user) {
+            $users[] = new Cliente($user['id'], $user['fk_tTipoDeUsuario'], $user['nome'], $user['email'], $user['morada'], $user['numTel'], $user['username'], $user['password'], $user['prov_name'], $user['mun_name'], $user['com_name'], "null", $user['fk_tTipoCliente'], $user['empresaActividade'], $user['nacionalidade_name'], $user['estado_conta_nome']);
+        }
+        return $users;
     }
 
     public function userLogin($email, $password)
@@ -92,27 +103,80 @@ WHERE tuser.id = :id;
         return $adminEmail;
     }
 
+    public function updateClientData($clienteId, $clienteName, $clienteEmail, $clienteMorada, $clientenumTel, $clienteUsername, $clientePassword, $clienteEmpresaActividade, $clienteProv, $clienteMun, $clienteCom, $clienteTipo, $clienteNacionalidade)
+    {
+        try {
+            $stmt = $this->database->prepare("UPDATE tuser
+            SET 
+                nome = :nome,
+                email = :email,
+                morada = :morada,
+                numTel = :numTel,
+                username = :username,
+                password = :password,
+                empresaActividade = :empresaActividade,
+                fk_prov = :fk_prov,
+                fk_mun = :fk_mun,
+                fk_com = :fk_com,
+                fk_tTipoCliente = :fk_tTipoCliente,
+                fk_tNacionalidade = :fk_tNacionalidade
+            WHERE id = :selected_id");
+
+            $stmt->bindParam(':selected_id', $clienteId, PDO::PARAM_INT);
+            $stmt->bindParam(':nome', $clienteName, PDO::PARAM_STR);
+            $stmt->bindParam(':email', $clienteEmail, PDO::PARAM_STR);
+            $stmt->bindParam(':morada', $clienteMorada, PDO::PARAM_STR);
+            $stmt->bindParam(':numTel', $clientenumTel, PDO::PARAM_STR);
+            $stmt->bindParam(':username', $clienteUsername, PDO::PARAM_STR);
+            $stmt->bindParam(':password', $clientePassword, PDO::PARAM_STR);
+            $stmt->bindParam(':empresaActividade', $clienteEmpresaActividade, PDO::PARAM_STR);
+            $stmt->bindParam(':fk_prov', $clienteProv, PDO::PARAM_INT);
+            $stmt->bindParam(':fk_mun', $clienteMun, PDO::PARAM_INT);
+            $stmt->bindParam(':fk_com', $clienteCom, PDO::PARAM_INT);
+            $stmt->bindParam(':fk_tTipoCliente', $clienteTipo, PDO::PARAM_INT);
+            $stmt->bindParam(':fk_tNacionalidade', $clienteNacionalidade, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            return true;
+        } catch (PDOException $e) {
+
+            return false;
+        }
+    }
+
+    public function approveUser($id)
+    {
+        try {
+            $stmt = $this->database->prepare("UPDATE tuser
+            SET fk_tEstadoConta = 1
+            WHERE id = :id");
+            $stmt->bindparam(":id", $id);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public function refuseUser($id)
+    {
+        try {
+            $stmt = $this->database->prepare("UPDATE tuser
+            SET fk_tEstadoConta = 2
+            WHERE id = :id");
+            $stmt->bindparam(":id", $id);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
     public function createNewCliente($nome, $email, $morada, $numTel, $username, $password, $empresaActividade, $fk_prov, $fk_mun, $fk_com, $fk_tTipoCliente, $fk_tNacionalidade, $fk_tTipoDeUsuario, $fk_tEstadoConta)
     {
         try {
-            /*
-              Columns:
-              id int(11) AI PK
-              nome varchar(200) *
-              email varchar(200) *
-              morada varchar(200) *
-              numTel varchar(200) *
-              username varchar(100) *
-              password varchar(200) *
-              empresaActividade varchar(300)
-              fk_prov int(11)  *
-              fk_mun int(11) *
-              fk_com int(11) *
-              fk_tTipoCliente int(11)
-              fk_tNacionalidade int(11)
-              fk_tTipoDeUsuario int(11)
-              fk_tEstadoConta int(11)
-             */
+
             $stmt = $this->database->prepare("INSERT Into tuser(nome,email,morada,numTel,username,password,empresaActividade,fk_prov,fk_mun,fk_com,fk_tTipoCliente ,fk_tNacionalidade,fk_tTipoDeUsuario,fk_tEstadoConta) VALUES(:nome,:email,:morada,:numTel,:username,:password,:empresaActividade,:fk_prov,:fk_mun,:fk_com,:fk_tTipoCliente,:fk_tNacionalidade,:fk_tTipoDeUsuario,:fk_tEstadoConta)");
             $stmt->bindparam(":nome", $nome);
             $stmt->bindparam(":email", $email);

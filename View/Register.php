@@ -1,24 +1,22 @@
-
 <div class="row justify-content-center my-5">
     <div class="col-lg-6">
 
         <form method="post">
-<div class="mb-3">
+            <div class="mb-3">
                 <label for="provinciaSelect" class="form-label">Província</label>
 
                 <select name="provinciaSelect" id="provinciaSelect" class="form-select" onchange="alterMunicipios()" required>
-                    ç        <option value="" selected disabled>Provincia</option>
+                    ç <option value="" selected disabled>Provincia</option>
                     <?php
                     foreach ($provincias as $provincia) :
-                        ?>
-                        <option value="<?php echo $provincia->getId(); ?>" 
-                        <?php
-                        if ($provId == $provincia->getId()) {
-                            echo 'selected';
-                        }
-                        ?> ><?php echo $provincia->getProvincia(); ?> </option>
-                            <?php endforeach;
-                            ?>
+                    ?>
+                        <option value="<?php echo $provincia->getId(); ?>" <?php
+                                                                            if ($provId == $provincia->getId()) {
+                                                                                echo 'selected';
+                                                                            }
+                                                                            ?>><?php echo $provincia->getProvincia(); ?> </option>
+                    <?php endforeach;
+                    ?>
 
                 </select>
             </div>
@@ -29,15 +27,14 @@
                     <option value="" selected disabled>Município</option>
                     <?php
                     foreach ($municipios as $municipio) :
-                        ?>
-                        <option value= <?php echo $municipio->getId(); ?>
-                        <?php
-                        if ($munId == $municipio->getId()) {
-                            echo 'selected';
-                        }
-                        ?> > <?php echo $municipio->getMunicipio(); ?> </option>
-                            <?php endforeach;
-                            ?>
+                    ?>
+                        <option value=<?php echo $municipio->getId(); ?> <?php
+                                                                            if ($munId == $municipio->getId()) {
+                                                                                echo 'selected';
+                                                                            }
+                                                                            ?>> <?php echo $municipio->getMunicipio(); ?> </option>
+                    <?php endforeach;
+                    ?>
 
 
 
@@ -52,11 +49,10 @@
                     <option value="" disabled selected>Comuna</option>
                     <?php
                     foreach ($comunas as $comuna) :
-                        ?>
-                        <option value= <?php echo $comuna->getId(); ?>
-                                > <?php echo $comuna->getComuna(); ?> </option>
-                            <?php endforeach;
-                            ?>
+                    ?>
+                        <option value=<?php echo $comuna->getId(); ?>> <?php echo $comuna->getComuna(); ?> </option>
+                    <?php endforeach;
+                    ?>
 
 
                 </select>
@@ -99,24 +95,24 @@
                 </label>
 
                 <select name="tipodeCliente" id="tipodeCliente" class="form-select" onchange="typeOfClient()" required>
-                <option value="" selected disabled>Selecione um tipo de cliente</option>
+                    <option value="" selected disabled>Selecione um tipo de cliente</option>
                     <option value="1">Particular</option>
                     <option value="2">Empresa</option>
                 </select>
             </div>
 
             <div class="mb-3" id="empresaActivities">
-                 <!-- <label for="actividadeDaEmpresa" class="form-label">Actividade Da Empresa</label>
-                <textarea class="form-control" id="actividadeDaEmpresa" name="actividadeDaEmpresa" rows="3" required></textarea>  -->
-            </div>
+         
             
-             <div class="mb-3">
+            </div>
+
+            <div class="mb-3">
                 <label class="form-label" for="morada">Morada</label>
                 <input type="text" name="morada" id="morada" class="form-control" required>
             </div>
 
 
-            
+
 
             <div class="mb-3">
                 <label for="nacionalidadeSelect" class="form-label">Nacionalidade</label>
@@ -126,8 +122,8 @@
                         <option value="<?php echo $nacionalidade->getId(); ?> "> <?php echo $nacionalidade->getNacionalidade(); ?> </option>
                     <?php endforeach; ?>
 
-                </select> 
-            </div>   
+                </select>
+            </div>
 
 
 
@@ -136,4 +132,3 @@
         </form>
     </div>
 </div>
-
