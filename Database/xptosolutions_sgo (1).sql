@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3307
--- Tempo de geração: 08-Jun-2023 às 00:49
+-- Tempo de geração: 24-Jul-2023 às 05:16
 -- Versão do servidor: 10.4.24-MariaDB
 -- versão do PHP: 8.1.6
 
@@ -178,8 +178,29 @@ CREATE TABLE `testadocliente` (
 INSERT INTO `testadocliente` (`id`, `nome`) VALUES
 (1, 'Activo'),
 (2, 'Bloqueado'),
-(3, 'NaoConfirmado'),
+(3, 'Não Confirmado'),
 (4, 'Anomalia');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `testadosoutdoors`
+--
+
+CREATE TABLE `testadosoutdoors` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `testadosoutdoors`
+--
+
+INSERT INTO `testadosoutdoors` (`id`, `nome`) VALUES
+(1, 'Disponível'),
+(2, ' A aguardar pagamento'),
+(3, 'Por Validar Pagamento'),
+(4, 'Ocupado');
 
 -- --------------------------------------------------------
 
@@ -505,6 +526,40 @@ INSERT INTO `tnacionalidade` (`idtnacionalidade`, `nome`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `toutdoor`
+--
+
+CREATE TABLE `toutdoor` (
+  `id` int(11) NOT NULL,
+  `fk_tipo` int(11) DEFAULT NULL,
+  `fk_tprovincia` int(11) DEFAULT NULL,
+  `fk_tmunicipio` int(11) DEFAULT NULL,
+  `fk_tcomuna` int(11) DEFAULT NULL,
+  `datain` date DEFAULT NULL,
+  `datafim` date DEFAULT NULL,
+  `imgpath` varchar(255) DEFAULT NULL,
+  `preco` float DEFAULT NULL,
+  `fk_estado` int(11) DEFAULT NULL,
+  `fk_gestid` int(11) DEFAULT NULL,
+  `comprovpath` varchar(255) DEFAULT NULL,
+  `fk_userid` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `toutdoor`
+--
+
+INSERT INTO `toutdoor` (`id`, `fk_tipo`, `fk_tprovincia`, `fk_tmunicipio`, `fk_tcomuna`, `datain`, `datafim`, `imgpath`, `preco`, `fk_estado`, `fk_gestid`, `comprovpath`, `fk_userid`) VALUES
+(1, 3, 4, 17, 81, '2023-06-28', '2023-07-27', 'Uploads/58DA15999147C4D620D97767ACAB560F.jpg', 100, 2, NULL, 'null', 14),
+(2, 2, 11, 55, 114, '2023-07-14', '2023-07-30', 'Uploads/depositphotos_75108665-Slanting-lines-background.jpg', 100, 2, NULL, 'null', 14),
+(3, 2, 11, 53, 99, '2023-07-01', '2023-07-31', 'Uploads/58DA15999147C4D620D97767ACAB560F.jpg', 100, 2, NULL, 'null', 14),
+(4, 3, 11, 53, 102, '2023-07-08', '2023-07-30', 'Uploads/apple-lightning-3.5mm-audio-jack-adapater-2.jpg', 100, 2, NULL, 'null', 14),
+(9, 1, 3, 12, 57, '2023-07-14', '2023-07-29', 'Uploads/H019e07a9131a46fda498ea6f00943f87t.jpg', 100, 2, NULL, 'null', 14),
+(10, 2, 3, 12, 57, '2023-07-01', '2023-07-30', 'Uploads/H019e07a9131a46fda498ea6f00943f87t.jpg', 100, 2, 8, 'null', 14);
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `tprovincia`
 --
 
@@ -580,6 +635,28 @@ INSERT INTO `ttipodeusuario` (`id`, `nome`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `ttipooutdoors`
+--
+
+CREATE TABLE `ttipooutdoors` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `ttipooutdoors`
+--
+
+INSERT INTO `ttipooutdoors` (`id`, `nome`) VALUES
+(1, 'Paineis Luminosos'),
+(2, 'Paineis Não Luminosos'),
+(3, 'Faixadas'),
+(4, 'Placas Indicativas'),
+(5, 'Lampoles');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `tuser`
 --
 
@@ -602,6 +679,28 @@ CREATE TABLE `tuser` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Extraindo dados da tabela `tuser`
+--
+
+INSERT INTO `tuser` (`id`, `nome`, `email`, `morada`, `numTel`, `username`, `password`, `empresaActividade`, `fk_prov`, `fk_mun`, `fk_com`, `fk_tTipoCliente`, `fk_tNacionalidade`, `fk_tTipoDeUsuario`, `fk_tEstadoConta`) VALUES
+(1, 'Edgar Cardoso', 'edgarsnake1@gmail.com', 'Benfica,Rua E', '936721457', 'EdTheDev', '123Pass', 'Ya', 11, 51, 91, 2, 6, 3, 1),
+(2, 'Edgar C', 'edga@gmail.com', 'Belas, Rua E', '936721457', 'Log', '123Pass', 'eej', 11, 52, 96, 2, 7, 3, 1),
+(3, 'edgaradmin', 'admin@admin.com', 'eij', '936721457', 'admin', '123Pass', 'null', 11, 51, 91, 1, 6, 3, 1),
+(4, 'JPIJPIJ', 'admin@gmail.com', 'kokj', '937213801', 'pijup', '123Pass', 'kpo', 11, 51, 91, 2, 6, 3, 3),
+(5, 'admin', 'adminxptosolutions1@exelica.com', 'Rua E Casa 13A', '936721457', 'adminxpto', 'admin123', NULL, 11, 51, 91, 2, 6, 1, 1),
+(6, 'hijhwijhp', 'edgar@gmail.com', 'benfica,rua E', '936721457', 'EdTheDev20', '123Pass', 'null', 11, 51, 91, 1, 6, 3, 2),
+(7, 'Edgar Cardoso', 'edgar@gmail.com', 'edg', '936721457', 'EdTheDev2000', '123P', 'null', 11, 51, 91, 1, 6, 3, 3),
+(8, 'pojpo', 'pijpijpo@gmail.com', 'elkoke', '936721457', 'kjpoj', '123Pass', 'null', 11, 51, 91, 1, 6, 2, 3),
+(9, 'Test XPTO', 'hiropainxd@test.com', 'Rua E, Casa 13A', '936721457', 'LeTest20', '123Pass', 'null', 11, 51, 93, 1, 6, 3, 2),
+(10, 'Edgar Cardoso', 'edga@gmail.com', 'Rua E, Casa 13A', '936721457', 'LeDevTest00', '123Pass', 'null', 11, 51, 91, 1, 6, 3, 3),
+(11, 'MrTheBean', 'ed@rmia.com', 'ek', '936721457', 'Mr.Bean', '12Pass', 'null', 11, 55, 114, 1, 13, 2, 3),
+(12, 'EdgarEid', 'oe@gmail.com', 'RuaD,Casa12', '936721457', 'opEdd', '123Pass', 'null', 11, 55, 116, 1, 15, 3, 3),
+(13, 'jepijepj', 'derby@exemplo.com', 'jeniojpi', '936721457', 'Derby', '123Pass', 'null', 11, 52, 96, 1, 6, 3, 3),
+(14, 'EdgarCardoso', 'ehe@gmail.com', '    Benfica', '936721456', 'DarkerThanGamer', '123p011', 'null', 3, 14, 68, 1, 17, 3, 1),
+(15, 'Gestor 1', 'gestor@gmail.com', 'eioh', '937213801', 'TheGestor', 'gest123', NULL, 4, 17, 82, NULL, NULL, 2, 1),
+(16, 'EdgarCardoso', 'pojpj@gmail.com', 'ijhp', '936724127', '+pejk\'', '123p', NULL, 2, 7, 31, NULL, NULL, 2, 1);
+
+--
 -- Índices para tabelas despejadas
 --
 
@@ -619,6 +718,12 @@ ALTER TABLE `testadocliente`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices para tabela `testadosoutdoors`
+--
+ALTER TABLE `testadosoutdoors`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Índices para tabela `tmunicipio`
 --
 ALTER TABLE `tmunicipio`
@@ -630,6 +735,19 @@ ALTER TABLE `tmunicipio`
 --
 ALTER TABLE `tnacionalidade`
   ADD PRIMARY KEY (`idtnacionalidade`);
+
+--
+-- Índices para tabela `toutdoor`
+--
+ALTER TABLE `toutdoor`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_tipo` (`fk_tipo`),
+  ADD KEY `fk_tprovincia` (`fk_tprovincia`),
+  ADD KEY `fk_tmunicipio` (`fk_tmunicipio`),
+  ADD KEY `fk_tcomuna` (`fk_tcomuna`),
+  ADD KEY `fk_estado` (`fk_estado`),
+  ADD KEY `fk_gestid` (`fk_gestid`),
+  ADD KEY `fk_userid` (`fk_userid`);
 
 --
 -- Índices para tabela `tprovincia`
@@ -647,6 +765,12 @@ ALTER TABLE `ttipodecliente`
 -- Índices para tabela `ttipodeusuario`
 --
 ALTER TABLE `ttipodeusuario`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices para tabela `ttipooutdoors`
+--
+ALTER TABLE `ttipooutdoors`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -679,6 +803,12 @@ ALTER TABLE `testadocliente`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT de tabela `testadosoutdoors`
+--
+ALTER TABLE `testadosoutdoors`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT de tabela `tmunicipio`
 --
 ALTER TABLE `tmunicipio`
@@ -689,6 +819,12 @@ ALTER TABLE `tmunicipio`
 --
 ALTER TABLE `tnacionalidade`
   MODIFY `idtnacionalidade` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
+
+--
+-- AUTO_INCREMENT de tabela `toutdoor`
+--
+ALTER TABLE `toutdoor`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de tabela `tprovincia`
@@ -709,10 +845,16 @@ ALTER TABLE `ttipodeusuario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT de tabela `ttipooutdoors`
+--
+ALTER TABLE `ttipooutdoors`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT de tabela `tuser`
 --
 ALTER TABLE `tuser`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Restrições para despejos de tabelas
@@ -729,6 +871,18 @@ ALTER TABLE `tcomuna`
 --
 ALTER TABLE `tmunicipio`
   ADD CONSTRAINT `tmunicipio_ibfk_1` FOREIGN KEY (`fk_idprovincia`) REFERENCES `tprovincia` (`idtprovincia`);
+
+--
+-- Limitadores para a tabela `toutdoor`
+--
+ALTER TABLE `toutdoor`
+  ADD CONSTRAINT `toutdoor_ibfk_1` FOREIGN KEY (`fk_tipo`) REFERENCES `ttipooutdoors` (`id`),
+  ADD CONSTRAINT `toutdoor_ibfk_2` FOREIGN KEY (`fk_tprovincia`) REFERENCES `tprovincia` (`idtprovincia`),
+  ADD CONSTRAINT `toutdoor_ibfk_3` FOREIGN KEY (`fk_tmunicipio`) REFERENCES `tmunicipio` (`idtmunicipio`),
+  ADD CONSTRAINT `toutdoor_ibfk_4` FOREIGN KEY (`fk_tcomuna`) REFERENCES `tcomuna` (`idtcomuna`),
+  ADD CONSTRAINT `toutdoor_ibfk_5` FOREIGN KEY (`fk_estado`) REFERENCES `testadosoutdoors` (`id`),
+  ADD CONSTRAINT `toutdoor_ibfk_6` FOREIGN KEY (`fk_gestid`) REFERENCES `tuser` (`id`),
+  ADD CONSTRAINT `toutdoor_ibfk_7` FOREIGN KEY (`fk_userid`) REFERENCES `tuser` (`id`);
 
 --
 -- Limitadores para a tabela `tuser`
