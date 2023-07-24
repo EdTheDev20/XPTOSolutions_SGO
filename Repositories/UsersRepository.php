@@ -2,7 +2,7 @@
 
 require_once('./Model/Cliente.php');
 require_once('./Model/Database.php');
-
+require_once('./Model/Gestor.php');
 class UsersRepository
 {
 
@@ -14,7 +14,15 @@ class UsersRepository
     }
 
     public function getGestores(){
-        $statement = $this->database->prepare("")
+        $statement = $this->database->prepare("SELECT * from tuser where fk_tTipoDeUsuario=2;");
+        $statement->execute();
+        $result = $statement->fetchAll();
+        foreach ($result as $gestor) {
+
+        $gestores[] = new Gestor($gestor['id'],$gestor['fk_tTipoDeUsuario'],$gestor['nome'],$gestor['email'],$gestor['morada'],$gestor['numTel'],$gestor['username'],$gestor['password'],$gestor['fk_prov'],$gestor['fk_mun'],$gestor['fk_com']);
+        }
+        return $gestores;
+
     }
     public function getUserforDashBoard()
     {
@@ -190,6 +198,30 @@ WHERE tuser.id = :id;
             $stmt->bindparam(":fk_com", $fk_com);
             $stmt->bindparam(":fk_tTipoCliente", $fk_tTipoCliente);
             $stmt->bindparam(":fk_tNacionalidade", $fk_tNacionalidade);
+            $stmt->bindparam(":fk_tTipoDeUsuario", $fk_tTipoDeUsuario);
+            $stmt->bindparam(":fk_tEstadoConta", $fk_tEstadoConta);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public function createNewGestor($nome, $email, $morada, $numTel, $username, $password, $fk_prov, $fk_mun, $fk_com, $fk_tTipoDeUsuario, $fk_tEstadoConta)
+    {
+        try {
+
+            $stmt = $this->database->prepare("INSERT Into tuser(nome,email,morada,numTel,username,password,fk_prov,fk_mun,fk_com,fk_tTipoDeUsuario,fk_tEstadoConta) VALUES(:nome,:email,:morada,:numTel,:username,:password,:fk_prov,:fk_mun,:fk_com,:fk_tTipoDeUsuario,:fk_tEstadoConta)");
+            $stmt->bindparam(":nome", $nome);
+            $stmt->bindparam(":email", $email);
+            $stmt->bindparam(":morada", $morada);
+            $stmt->bindparam(":numTel", $numTel);
+            $stmt->bindparam(":username", $username);
+            $stmt->bindparam(":password", $password);
+            $stmt->bindparam(":fk_prov", $fk_prov);
+            $stmt->bindparam(":fk_mun", $fk_mun);
+            $stmt->bindparam(":fk_com", $fk_com);
             $stmt->bindparam(":fk_tTipoDeUsuario", $fk_tTipoDeUsuario);
             $stmt->bindparam(":fk_tEstadoConta", $fk_tEstadoConta);
             $stmt->execute();

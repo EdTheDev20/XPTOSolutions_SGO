@@ -54,7 +54,13 @@ class pageController
                 $this->displayDataChangeSuccess();
             } else if ($op == 'dashboard') {
                 $this->displayDashboard();
-            } else if ($op == 'loginerror') {
+            } else if($op=="creategestores"){
+                $this-> registerManager();
+            } 
+            else if($op=="createoutdoors"){
+                $this-> createOutdoors();
+            }
+            else if ($op == 'loginerror') {
                 session_destroy();
                 $this->displayLoginError();
             } else {
@@ -73,7 +79,8 @@ class pageController
             if ($_SESSION["fk_tTipoDeUsuario"] == "1") {
                 $usersforAdm = $this->formService->getUsersForAdm();
                 $this->displayUserManagement($usersforAdm);
-                $this->displayManagersManagement();
+                $gestoresforAdm = $this->formService-> getGestoresForAdm();
+                $this->displayManagersManagement($gestoresforAdm);
                 $task =  isset($_POST['task']) ? filter_input(INPUT_POST, 'task') : FALSE;
                 if($task=='delete'){
                   try {       
@@ -144,7 +151,9 @@ class pageController
                 if (!isset($comunas)) {
                     $comunas = NULL;
                 }
-
+                echo "Lista de outdoors";
+               $outdoors= $this->formService->getOutdoors();
+               print_r($outdoors);
                 $this->showDashboardUser($DashBoardCliente, $provincias, $municipios, $comunas, $nacionalidades);
             }
         } else {
@@ -152,7 +161,7 @@ class pageController
         }
     }
 
-    public function displayManagersManagement(){
+    public function displayManagersManagement($gestoresforAdm){
      include APP_PATH . '/View/ManagersManagement.php';
         
     }
@@ -253,5 +262,91 @@ class pageController
     public function displayDataChangeSuccess()
     {
         include APP_PATH . '/View/DataChangeSuccess.php';
+
+    }
+
+    public function createOutdoors(){
+        $outdoorTypes = $this->formService->getOutdoorTypes();
+        $provincias = $this->formService->getProvincias();
+        $nacionalidades = $this->formService->getNacionalidades();
+        $filterProvId = filter_input(INPUT_GET, 'provid');
+        $filterMunId = filter_input(INPUT_GET, 'munid');
+        $provId = isset($filterProvId) ? $filterProvId : NULL;
+        $munId = isset($filterMunId) ? $filterMunId : NULL;
+        if ($provId) {
+            $municipios = $this->formService->getMunicipiosFromProvinciaServ($provId);
+        }
+        if ($munId) {
+            $comunas = $this->formService->getComunasFromMunicipiosServ($munId);
+        }
+
+
+        if (isset($_POST['outdoor-form'])) {
+            $targetDir = "Uploads/"; // Directory where the uploaded image will be stored
+            $targetFile = $targetDir . basename($_FILES["imageUpload"]["name"]);
+            $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+          
+            // Check if the file is an actual image or a fake image
+            $check = getimagesize($_FILES["imageUpload"]["tmp_name"]);
+            if ($check !== false) {
+              // File is an image
+              move_uploaded_file($_FILES["imageUpload"]["tmp_name"], $targetFile);
+              echo "Image uploaded successfully.";
+            } else {
+              echo "File is not an image.";
+            }
+            echo $targetFile;
+            $provinciaSelect = $_POST['provinciaSelect'];
+            $municipioSelect = $_POST['municipioSelect'];
+            $comunaSelect = $_POST['comunaSelect'];
+            $outdoortype = $_POST['outdoortype'];
+            $startdate = $_POST['startdate'];
+            $enddate = $_POST['enddate'];
+            $this->formService->fs_solicitaOutdoor($outdoortype,$provinciaSelect,$municipioSelect,$comunaSelect,$startdate,$enddate,$targetFile,"100","2","null","null",$_SESSION['id']);
+          }
+
+
+        include APP_PATH . '/View/RequestOutdoor.php';
+    }
+    public function registerManager(){
+
+        $provincias = $this->formService->getProvincias();
+        $nacionalidades = $this->formService->getNacionalidades();
+        $filterProvId = filter_input(INPUT_GET, 'provid');
+        $filterMunId = filter_input(INPUT_GET, 'munid');
+        $provId = isset($filterProvId) ? $filterProvId : NULL;
+        $munId = isset($filterMunId) ? $filterMunId : NULL;
+        if ($provId) {
+            $municipios = $this->formService->getMunicipiosFromProvinciaServ($provId);
+        }
+        if ($munId) {
+            $comunas = $this->formService->getComunasFromMunicipiosServ($munId);
+        }
+
+        if (isset($_POST['manager-create'])) {
+
+            $username = $_POST['username'];
+            $nome = $_POST['nomeCompleto'];
+            $email = $_POST['email'];
+            $password = $_POST['inputPassword'];
+            $numerotelefone = $_POST['numeroTel'];
+            $provincia = $_POST['provinciaSelect'];
+            $municipio = $_POST['municipioSelect'];
+            $comuna = $_POST['comunaSelect'];
+            $morada = $_POST['morada'];
+            try {
+               $this->formService->createManagersInDB($nome,$email,$morada,$numerotelefone,$username,$password,$provincia,$municipio,$comuna,'2','1');
+               $subject = "NOVO USUÁRIO CRIADO";
+               $assunto = "Querido utilizador, o administrador do site XPTO criou uma conta em seu nome. Por favor acesso à aplicação para poder revisar.";
+               $this->mail = new Mail("admin", $email, $subject, $assunto);
+               $this->mail->sendMail();
+                $this->redirect("index.php?op=dashboard");
+            } catch (ValidationException $e) {
+                $errors = $e->getErrors();
+            }
+        }
+
+        include APP_PATH . '/View/ManagerRegister.php';
     }
 }
+

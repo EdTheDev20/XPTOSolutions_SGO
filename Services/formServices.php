@@ -3,15 +3,50 @@
 require_once (APP_PATH . '/Repositories/LocalizacaoRepository.php');
 require_once (APP_PATH . '/Repositories/NacionalidadeRepository.php');
 require_once(APP_PATH . '/Repositories/UsersRepository.php');
+require_once(APP_PATH . '/Repositories/OutdoorsRepository.php');
+
 class formServices {
 private $localizacaoRepository = NULL;
 private $nacionalidades = NULL;
 private $clientes=NULL;
+private $outdoors=NULL;
 public function __construct()
 {
 $this->localizacaoRepository = new LocalizacaoRepository();
 $this->nacionalidades =new NacionalidadeRepository();
 $this->clientes=new UsersRepository();
+$this->outdoors=new OutdoorsRepository();
+}
+
+public function fs_solicitaOutdoor($tipo, $provincia, $municipio, $comuna, $datain, $datafim, $imgpath, $preco, $estado, $gestor="null", $comprovpath, $userid){
+
+    try{
+        $res= $this->outdoors->solicitaOutdoor($tipo, $provincia, $municipio, $comuna, $datain, $datafim, $imgpath, $preco, "2", $gestor="null", $comprovpath='null', $userid);
+        if ($res){
+            echo "Success";
+        }
+    } catch(Exception $e){
+        throw $e;
+
+    }
+}
+
+public function getOutdoors(){
+    try {
+        $res = $this->outdoors->getOutdoors();
+        return $res;
+    }catch(Exception $e){
+        throw $e;
+    }
+}
+
+public function getOutdoorTypes(){
+    try {
+        $res = $this->outdoors->getOutdoorType();
+        return $res;
+    } catch(Exception $e){
+        throw $e;
+    }
 }
 
 public function getClienteDash($id){
@@ -68,6 +103,14 @@ public function insertInDB($nome,$email,$morada,$numTel,$username,$password,$emp
 
 }
 
+public function createManagersInDB($nome, $email, $morada, $numTel, $username, $password, $fk_prov, $fk_mun, $fk_com, $fk_tTipoDeUsuario, $fk_tEstadoConta){
+try{
+$res = $this->clientes->createNewGestor($nome, $email, $morada, $numTel, $username, $password, $fk_prov, $fk_mun, $fk_com, $fk_tTipoDeUsuario, $fk_tEstadoConta);
+} catch(Exception $e){
+    throw $e;
+}
+
+}
 public function getUsersForAdm(){
 try {
     $res = $this->clientes->getUserforDashBoard();
@@ -76,7 +119,15 @@ return $res;
     echo "erro a recolher users";
 }
 
+}
 
+public function getGestoresForAdm(){
+    try {
+        $res = $this->clientes->getGestores();
+        return $res;
+    } catch(Exception $e){
+        echo "Erro a recolher gestores";
+    }
 }
 
 public function getProvincias(){

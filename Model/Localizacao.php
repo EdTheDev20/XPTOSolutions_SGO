@@ -6,7 +6,7 @@ private $provincia;
 private $municipio;
 private $comuna;
 
-function __construct($id,$provincia,$municipio,$comuna)
+function __construct($id='null',$provincia,$municipio,$comuna)
 {
 $this->id = $id;
 $this->provincia = $provincia;

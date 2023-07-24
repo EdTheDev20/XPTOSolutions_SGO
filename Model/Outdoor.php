@@ -1,4 +1,6 @@
 <?php
+include_once APP_PATH . '/Model/Localizacao.php';
+
 class Outdoor
 {
     protected $id;
@@ -11,6 +13,22 @@ class Outdoor
     protected $preco;
     protected $gestor; // "fk_gestid" foreign key
     protected $comprovpath; // "comprovpath" column
+    protected $donooutdoor; 
+
+    public function __construct($id, $tipo="null", $provincia='null',$municipio='null',$comuna='null', $datadeinicio="null", $datadefim="null", $imagepath="null", $estado="null", $preco="null", $gestor="null", $comprovpath="null",$donooutdoor="null")
+    {
+        $this->id = $id;
+        $this->tipo = $tipo;
+        $this->localizacao = new Localizacao($id,$provincia,$municipio,$comuna);
+        $this->datadeinicio = $datadeinicio;
+        $this->datadefim = $datadefim;
+        $this->imagepath = $imagepath;
+        $this->estado = $estado;
+        $this->preco = $preco;
+        $this->gestor = $gestor;
+        $this->comprovpath = $comprovpath;
+        $this->donooutdoor = $donooutdoor;
+    }
 
 
     public function setMunicipio($x)
@@ -185,7 +203,7 @@ class Outdoor
 
     /**
      * Get the value of gestor
-     */ 
+     */
     public function getGestor()
     {
         return $this->gestor;
@@ -195,7 +213,7 @@ class Outdoor
      * Set the value of gestor
      *
      * @return  self
-     */ 
+     */
     public function setGestor($gestor)
     {
         $this->gestor = $gestor;
@@ -205,7 +223,7 @@ class Outdoor
 
     /**
      * Get the value of comprovpath
-     */ 
+     */
     public function getComprovpath()
     {
         return $this->comprovpath;
@@ -215,10 +233,30 @@ class Outdoor
      * Set the value of comprovpath
      *
      * @return  self
-     */ 
+     */
     public function setComprovpath($comprovpath)
     {
         $this->comprovpath = $comprovpath;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of donooutdoor
+     */ 
+    public function getDonooutdoor()
+    {
+        return $this->donooutdoor;
+    }
+
+    /**
+     * Set the value of donooutdoor
+     *
+     * @return  self
+     */ 
+    public function setDonooutdoor($donooutdoor)
+    {
+        $this->donooutdoor = $donooutdoor;
 
         return $this;
     }
